@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff">
+    <!-- The main content view -->
+    <!--FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffffff" /-->
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cardList"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
+            android:layout_margin="16dp"
+            fab:fab_colorNormal="#F44336"
+            fab:fab_colorPressed="#D32F2F"
+            fab:fab_colorRipple="#f0f" />
+
+    </FrameLayout>
+
+
+
+    <TableLayout
+        android:gravity="start"
+        android:id="@+id/left_drawer_layout"
+        android:orientation="horizontal"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#ffffffff">
+
+
+        <TableRow>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:id="@+id/imageView"
+                android:src="@drawable/pattern" />
+        </TableRow>
+
+
+
+        <TableRow
+            android:layout_width="match_parent">
+            <ListView android:id="@+id/left_drawer_list"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center_horizontal"
+                android:choiceMode="singleChoice"
+                android:background="#ffffffff"
+                android:clickable="false"
+                android:textAlignment="center"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="add course"
+                android:id="@+id/addCourseTextView" />
+        </TableRow>
+
+
+    </TableLayout>
+
+
+    <!-- The navigation drawer
+    <LinearLayout android:id="@+id/left_drawer_layout"
+        android:orientation="horizontal"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp">
+
+
+        <TableLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:background="#ffffffff"
+            >
+
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:id="@+id/imageView"
+                    android:src="@drawable/pattern" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <ListView android:id="@+id/left_drawer_list"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+
+                    android:choiceMode="singleChoice"
+                    android:background="#ffffffff"
+                    android:clickable="false" />
+            </TableRow>
+
+
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+      LinearLayout android:id="@+id/left_drawer_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp">
+
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+
+                android:id="@+id/imageView"
+                android:src="@drawable/small" />
+
+
+
+            <ListView android:id="@+id/left_drawer_list"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+
+                android:choiceMode="singleChoice"
+                android:background="#ffffffff"
+                android:clickable="false" />
+
+
+        </LinearLayout>
+-->
+
+
+</android.support.v4.widget.DrawerLayout>
