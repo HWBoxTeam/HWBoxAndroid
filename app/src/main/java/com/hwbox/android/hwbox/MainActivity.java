@@ -134,14 +134,6 @@ public class MainActivity extends Activity
                 builder.show();
 
 
-
-
-
-
-
-
-
-
                 ((CardView)view).setCardBackgroundColor(Color.WHITE);
 
                 // do something
@@ -245,11 +237,11 @@ public class MainActivity extends Activity
 
                             ParseObject saveCourse = new ParseObject("fCourse");
                             saveCourse.put("courseName", nameET.getText().toString());
-                            saveCourse.put("userPtr", ParseUser.getCurrentUser());
+                            saveCourse.put("userPtr", SignInActivity.getUserPointer());
 
 
                             // I have to make a query first to find out if the course already exists but this will be implemented later. !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            saveCourse.saveInBackground(new SaveCallback() {
+                            saveCourse.pinInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
                                     if (e == null)
@@ -291,8 +283,11 @@ public class MainActivity extends Activity
 
 
             ParseQuery<ParseObject> hws = new ParseQuery<ParseObject>("fHomework");
-            hws.whereEqualTo( "userPtr", ParseUser.getCurrentUser());
+            hws.whereEqualTo( "userPtr", SignInActivity.getUserPointer());
             hws.whereEqualTo( "coursePtr", course);
+            if( !SignInActivity.getConnectionState())
+                hws.fromLocalDatastore();
+
             hws.findInBackground( new FindCallback<ParseObject>()
             {
                 @Override
@@ -398,12 +393,14 @@ public class MainActivity extends Activity
                             saveHW.put("coursePtr", getCourse(course));
                             saveHW.put("hwDescription", note);
                             saveHW.put("hwName", "test hw");
-                            saveHW.put("userPtr", ParseUser.getCurrentUser());
+                            saveHW.put("userPtr", SignInActivity.getUserPointer());
                             saveHW.put("hwDone", false);
                             saveHW.put("HwDueDate", calendar.getTime());
 
+                            Log.d("all object info", "course: " + getCourse(course) + "\nuserptr: " + SignInActivity.getUserPointer());
 
-                            saveHW.saveInBackground(new SaveCallback()
+
+                            saveHW.pinInBackground(new SaveCallback()
                             {
                                 @Override
                                 public void done(ParseException e)
@@ -516,8 +513,19 @@ public class MainActivity extends Activity
 
     private void refreshLeftDrawer()
     {
+
         ParseQuery<ParseObject> courses = new ParseQuery<ParseObject>("fCourse");
-        courses.whereEqualTo("userPtr", ParseUser.getCurrentUser());
+
+        if( SignInActivity.getConnectionState())
+            courses.whereEqualTo("userPtr", SignInActivity.getUserPointer());
+        else
+        {
+            Log.d( "user pointer", SignInActivity.getUserPointer() + "   ");
+            courses.whereEqualTo("userPtr", SignInActivity.getUserPointer());
+            courses.fromLocalDatastore();
+        }
+
+
         courses.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -539,8 +547,13 @@ public class MainActivity extends Activity
 
                     leftDrawer.setAdapter( new ArrayAdapter<String>(getBaseContext(), R.layout.list_item, courseNames));
 
+                    Log.d("number of courses found", parseObjects.size() + " ");
+
 
                 }
+                else
+                    Log.d("parse exception during course query", e.getMessage());
+
             }
         });
     }

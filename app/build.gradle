@@ -29,6 +29,10 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.2.0'
 }
 dependencies {
+    compile 'com.google.android.gms:play-services:4.2.42'
+    compile 'com.android.support:appcompat-v7:21.+'
+}
+dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
 }

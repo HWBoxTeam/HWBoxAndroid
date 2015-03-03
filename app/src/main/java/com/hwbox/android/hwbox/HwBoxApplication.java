@@ -19,7 +19,6 @@ public class HwBoxApplication extends Application
         Parse.enableLocalDatastore( this);
 
 
-
         Parse.initialize(this, "cf86jsjcwXfhr8OkIHl0Viizqtyh3XdfMmRc0Fmr", "XM6bc48H0f8r7dlqpecsHjfEnyIRDLyEDEqnnoEV");
 
 

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -37,7 +38,7 @@ public class SignInActivity extends Activity
 
     private static String userName;
     private static String userPassword;
-    private static String userPointer;
+    private static ParseUser userPointer;
 
 
 
@@ -49,7 +50,7 @@ public class SignInActivity extends Activity
     {
         return userPassword;
     }
-    protected static String getUserPointer()
+    protected static ParseUser getUserPointer()
     {
         return userPointer;
     }
@@ -57,6 +58,7 @@ public class SignInActivity extends Activity
     {
         return isConnected;
     }
+
 
 
     private boolean checkInternetConnection()
@@ -118,9 +120,11 @@ public class SignInActivity extends Activity
             final String name = nameET.getText().toString();
             final String email = emailET.getText().toString();
             final String password = passwordET.getText().toString();
+            userInfo = email + password;
 
             if( isConnected)
             {
+
 
                 if( v == signInButton)
                 {
@@ -135,16 +139,22 @@ public class SignInActivity extends Activity
                                         + " signed in successfully", Toast.LENGTH_LONG).show();
 
 
+                                userName = name;
+                                userPassword = password;
+                                userPointer = parseUser;
+
                                 //store in preferences if not already stored.
                                 if (!isStored(userInfo))
                                 {
                                     SharedPreferences userPrefs = getSharedPreferences(userInfo, Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = userPrefs.edit();
-                                    editor.putString("userName", name);
-                                    editor.putString("userPassword", password);
-                                    editor.putString("userPointer", parseUser.getString("objectId"));
+                                    editor.putString("userName", userName);
+                                    editor.putString("userPassword", userPassword);
+                                    editor.putString("userPointer", userPointer.getObjectId());
                                     editor.apply();
                                 }
+
+
 
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -177,14 +187,23 @@ public class SignInActivity extends Activity
 
                                 Intent intent = new Intent( getApplicationContext(), MainActivity.class);
 
+                                userName = name;
+                                userPassword = password;
+                                userPointer = ParseUser.getCurrentUser();
+
 
                                 //save user to shared preferences.
                                 SharedPreferences userPrefs = getSharedPreferences( userInfo, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = userPrefs.edit();
-                                editor.putString( "userName", name);
-                                editor.putString( "userPassword", password);
-                                editor.putString( "userPointer", ParseUser.getCurrentUser().getString( "objectId"));
+                                editor.putString( "userName", userName);
+                                editor.putString( "userPassword", userPassword);
+
+
+
+                                Log.d("user pointer first save", userPointer + "  ");
+                                editor.putString("userPointer", userPointer.getObjectId()); // this may be null control it
                                 editor.apply();
+
 
 
                                 startActivity(intent);
@@ -198,8 +217,6 @@ public class SignInActivity extends Activity
                         }
                     });
                 }
-
-
             }
             else
             {
@@ -216,7 +233,8 @@ public class SignInActivity extends Activity
                         SharedPreferences userPrefs = getSharedPreferences( userInfo, Context.MODE_PRIVATE);
                         userName = userPrefs.getString( "userName", null);
                         userPassword = userPrefs.getString( "userPassword", null);
-                        userPointer = userPrefs.getString( "userPointer", null);
+                        userPointer = new ParseUser();
+                        userPointer.setObjectId(userPrefs.getString( "userPointer", null));
 
 
                         if( userPassword.equals(password))
@@ -239,11 +257,7 @@ public class SignInActivity extends Activity
                     Toast.makeText( getBaseContext(), "Oops, you cannot sign up in offline mode.", Toast.LENGTH_SHORT).show();
 
                 }
-
             }
-
-
-
         }
     };
 }
